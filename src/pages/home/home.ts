@@ -13,4 +13,9 @@ export class HomePage {
 
   }
 
+  login(){
+    // metodo chama a pagina categorias na home // push empilha as paginas, setRoot somente vai sem voltar
+    this.navCtrl.setRoot('CategoriasPage');
+  }
+
 }
