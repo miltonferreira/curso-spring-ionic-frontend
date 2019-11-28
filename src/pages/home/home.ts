@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, IonicPage } from 'ionic-angular';
+import { NavController, IonicPage, MenuController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -9,8 +9,16 @@ import { NavController, IonicPage } from 'ionic-angular';
 export class HomePage {
   // controlador da view home.html, o @Component é o controlador
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, public menu: MenuController) {
 
+  }
+
+  ionViewWillEnter(){
+    this.menu.swipeEnable(false); // desabilita o menu lateral
+  }
+
+  ionViewDidLeave(){
+    this.menu.swipeEnable(true); // habilita o menu lateral
   }
 
   login(){
