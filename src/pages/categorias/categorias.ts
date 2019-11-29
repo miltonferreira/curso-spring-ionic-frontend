@@ -28,7 +28,7 @@ export class CategoriasPage {
         this.items = response; // adiciona as categorias na lista
     },
     error => {
-      console.log(error); // mostra o erro caso aconteça
+      // console.log(error); // mostra o erro caso aconteça
     });
 
   }
