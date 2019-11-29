@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { CategoriaService } from '../../services/domain/categorias.services';
+import { CategoriaDTO } from '../../models/categorias.dto';
+import { API_CONFIG } from '../../config/api.config';
 
 @IonicPage()
 @Component({
@@ -8,6 +10,11 @@ import { CategoriaService } from '../../services/domain/categorias.services';
   templateUrl: 'categorias.html',
 })
 export class CategoriasPage {
+  // controlador do categorias.html
+
+  bucketUrl: string = API_CONFIG.bucketBaseUrl; // pega a url base das imagens no S3
+
+  items: CategoriaDTO[]; // lista de categorias
 
   constructor(
     public navCtrl: NavController, 
@@ -18,7 +25,7 @@ export class CategoriasPage {
   ionViewDidLoad() {
     this.categoriaService.findAll() // chamada assincrona se inscrevendo para recebe a resposta da lista de categorias
       .subscribe(response => {
-        console.log(response); // para cada reposta imprime a categoria
+        this.items = response; // adiciona as categorias na lista
     },
     error => {
       console.log(error); // mostra o erro caso aconteça

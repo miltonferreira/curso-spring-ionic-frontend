@@ -8,5 +8,12 @@
 </ion-header>
 
 <ion-content padding>
-<p>Página de Categorias</p>
+  <ion-list>
+    <button ion-item *ngFor="let item of items"> <!--faz um for de items das categorias-->
+        <ion-thumbnail item-start>
+            <img src="{{bucketUrl}}/cat{{item.id}}.jpg"> <!--pega as imagens no S3, item.id é a id de cada categoria-->
+          </ion-thumbnail>
+          <h2>{{ item.nome }}</h2> <!--pega o nome das categorias no BD-->
+    </button>
+  </ion-list>
 </ion-content>
