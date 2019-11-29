@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, IonicPage, MenuController } from 'ionic-angular';
+import { CredenciaisDTO } from '../../models/credenciais.dto';
 
 @IonicPage()
 @Component({
@@ -8,6 +9,11 @@ import { NavController, IonicPage, MenuController } from 'ionic-angular';
 })
 export class HomePage {
   // controlador da view home.html, o @Component é o controlador
+
+  creds : CredenciaisDTO = { // recebe o login do usuario
+    email: "",
+    senha: "" 
+  };
 
   constructor(public navCtrl: NavController, public menu: MenuController) {
 
@@ -22,7 +28,8 @@ export class HomePage {
   }
 
   login(){
-    // metodo chama a pagina categorias na home // push empilha as paginas, setRoot somente vai sem voltar
+    console.log(this.creds);
+    // metodo chama a pagina categorias na home // "push" empilha as paginas - "setRoot" somente vai sem voltar
     this.navCtrl.setRoot('CategoriasPage');
   }
 
