@@ -34,7 +34,7 @@ export class HomePage {
   login(){
     this.auth.authenticate(this.creds)
     .subscribe(response => {
-      console.log(response.headers.get('Authorization')); // pega no header para checa se o Authorization veio na resposta
+      this.auth.successfulLogin(response.headers.get('Authorization')); // pega do cabeçalho o token de Authorization
       // metodo chama a pagina categorias na home : "push" empilha as paginas - "setRoot" somente vai sem voltar
       this.navCtrl.setRoot('CategoriasPage');
     },
