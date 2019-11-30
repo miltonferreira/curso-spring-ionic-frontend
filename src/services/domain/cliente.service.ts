@@ -14,14 +14,10 @@ export class ClienteService {
 
     // pega as infos do cliente
     findByEmail(email: string) : Observable<ClientDTO> {
-
-        let token = this.storage.getLocalUser().token; // pega o token
-        let authHeader = new HttpHeaders({'Authorization': 'Bearer ' + token}) // cabeçalho que vai mandar na requisição
-
+        
         // pega o email no restful do BD
-        return this.http.get<ClientDTO>(
-            `${API_CONFIG.baseUrl}/clientes/email?value=${email}`,
-            {'headers': authHeader}); 
+        return this.http.get<ClientDTO>(`${API_CONFIG.baseUrl}/clientes/email?value=${email}`);
+            
     }
 
     // pega a imagem do cliente
