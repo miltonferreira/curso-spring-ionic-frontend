@@ -9,6 +9,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 })
 export class MyApp {
   // controlador da view app.html, o @Component é o controlador
+
   @ViewChild(Nav) nav: Nav;
 
   rootPage: string = 'HomePage'; // indica quem é a pagina inicial do app
@@ -18,9 +19,10 @@ export class MyApp {
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
 
-    // used for an example of ngFor and navigation
+    // lista de opções de navegação no menu Toggle
     this.pages = [
-      { title: 'Home', component: 'HomePage' }
+      { title: 'Profile', component: 'ProfilePage' },
+      { title: 'Categorias', component: 'CategoriasPage' }
     ];
 
   }
