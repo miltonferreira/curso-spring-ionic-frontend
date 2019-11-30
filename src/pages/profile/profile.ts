@@ -22,7 +22,9 @@ export class ProfilePage {
   }
 
   ionViewDidLoad() {
+
     let localUser = this.storage.getLocalUser(); //pega o valor de localUser do storage caso exista
+
     if(localUser && localUser.email){
       
       this.clienteService.findByEmail(localUser.email) //indica qual email quer pegar no BD
@@ -31,9 +33,16 @@ export class ProfilePage {
         this.getImageIfExists() // buscar imagem para avatar do cliente
 
       },
-      error =>{});
+      error => {
+        if (error.status == 403){
+          this.navCtrl.setRoot('HomePage'); // caso aconteça erro de autenticaçãodo token, retorna para a página de login
+        }
+      });
 
+    } else {
+      this.navCtrl.setRoot('HomePage'); // caso aconteça erro de autenticação do token, retorna para a página de login
     }
+
   }
 
   // verifica se a imagem existe
