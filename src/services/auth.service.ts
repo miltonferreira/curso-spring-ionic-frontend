@@ -27,6 +27,17 @@ export class AuthService{
             })
     }
 
+    // se o token estiver valido, loga sem pedir autenticação
+    refreshToken(){
+        return this.http.post(
+            `${API_CONFIG.baseUrl}/auth/refresh_token`,
+            {},
+            {
+                observe: 'response', // pega o header da resposta e indica que vai recebe um obj response
+                responseType: 'text' // indica que o tipo da resposta é em texto
+            })
+    }
+
     // caso tenha sucesso em logar, salva o usuario no localStorage
     successfulLogin(authorizationValue : string){
         let tok = authorizationValue.substring(7); // pega o token tirando o beader
