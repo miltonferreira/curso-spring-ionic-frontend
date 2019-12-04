@@ -33,8 +33,8 @@ export class CategoriasPage {
 
   }
 
-  showProdutos(){
-    this.navCtrl.push('ProdutosPage'); // empilha a pagina de produtos
+  showProdutos(categoria_id : string){
+    this.navCtrl.push('ProdutosPage', {categoria_id: categoria_id}); // empilha a pagina de produtos, categoria_id: é o nome
   }
 
 }

@@ -9,7 +9,8 @@
 
 <ion-content padding>
   <ion-list>
-    <button ion-item *ngFor="let item of items" (click)="showProdutos()"> <!--faz um for de items das categorias-->
+    <!--faz um for de items das categorias e retorna-->
+    <button ion-item *ngFor="let item of items" (click)="showProdutos(item.id)"> <!--retorna o id do item para o metodo showProdutos-->
         <ion-thumbnail item-start>
             <img src="{{bucketUrl}}/cat{{item.id}}.jpg"> <!--pega as imagens no S3, item.id é a id de cada categoria-->
           </ion-thumbnail>
