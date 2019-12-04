@@ -26,4 +26,16 @@ export class ClienteService {
         return this.http.get(url, {responseType : 'blob'}); // indica que a resposta da requisição é uma imagem 'blob'
     }
 
+    // salva um novo cliente no BD
+    insert(obj : ClientDTO){
+        return this.http.post(
+            `${API_CONFIG.baseUrl}/clientes`,
+            obj, // passa o obj como post
+            {
+                observe: 'response', // espera uma resposta
+                responseType: 'text' // tipo texto, pois pode acontecer um erro de parse Json
+            }
+        );
+    }
+
 }
