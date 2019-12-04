@@ -33,4 +33,8 @@ export class CategoriasPage {
 
   }
 
+  showProdutos(){
+    this.navCtrl.push('ProdutosPage'); // empilha a pagina de produtos
+  }
+
 }
