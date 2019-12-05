@@ -47,8 +47,8 @@ export class ProdutosPage {
   }
 
   // chama a pagina do produto ao clicar
-  showDetail(){
-    this.navCtrl.push('ProdutoDetailPage'); // chama o produto-detail.ts
+  showDetail(produto_id : string){
+    this.navCtrl.push('ProdutoDetailPage', {produto_id: produto_id}); // chama o produto-detail.ts
   }
 
 }
