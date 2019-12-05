@@ -10,6 +10,7 @@ import { API_CONFIG } from '../../config/api.config';
   templateUrl: 'produtos.html',
 })
 export class ProdutosPage {
+  // lista os produtos quando for chamado o produtos.html
 
   items : ProdutoDTO[]; // coleção de produtos
 
@@ -43,6 +44,11 @@ export class ProdutosPage {
         },
         error => {});
     }
+  }
+
+  // chama a pagina do produto ao clicar
+  showDetail(){
+    this.navCtrl.push('ProdutoDetailPage'); // chama o produto-detail.ts
   }
 
 }
