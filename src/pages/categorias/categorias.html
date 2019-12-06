@@ -8,6 +8,11 @@
 </ion-header>
 
 <ion-content padding>
+
+  <ion-fab top right edge>
+    <button navPush="CartPage" ion-fab mini><ion-icon name="cart"></ion-icon></button> <!--botao que vai para página de carrinho-->
+  </ion-fab>
+
   <ion-list>
     <!--faz um for de items das categorias e retorna-->
     <button ion-item *ngFor="let item of items" (click)="showProdutos(item.id)"> <!--retorna o id do item para o metodo showProdutos-->
@@ -17,4 +22,6 @@
           <h2>{{ item.nome }}</h2> <!--pega o nome das categorias no BD-->
     </button>
   </ion-list>
+
+  
 </ion-content>
