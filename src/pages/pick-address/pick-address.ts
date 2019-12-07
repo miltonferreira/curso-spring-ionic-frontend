@@ -62,7 +62,7 @@ export class PickAddressPage {
   // indica qual endereço de entrega
   nextPage(item: EnderecoDTO){
     this.pedido.enderecoDeEntrega = {id: item.id}; // pega somente o id do endereço
-    console.log(this.pedido);
+    this.navCtrl.push('PaymentPage', {pedido: this.pedido}); // chama pagina de pagamento enviando o pedido do cliente
   }
 
 }
