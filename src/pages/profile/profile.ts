@@ -29,7 +29,7 @@ export class ProfilePage {
       
       this.clienteService.findByEmail(localUser.email) //indica qual email quer pegar no BD
       .subscribe(response => {
-        this.cliente = response; // pega o clienteDTO do backEnd na resposta da requisição
+        this.cliente = response as ClientDTO; // pega o clienteDTO do backEnd na resposta da requisição
         this.getImageIfExists() // buscar imagem para avatar do cliente
 
       },

@@ -12,8 +12,8 @@ export class ClienteService {
 
     }
 
-    // pega as infos do cliente
-    findByEmail(email: string) : Observable<ClientDTO> {
+    // pega todas infos do cliente, inclusive os endereços, nao possui tipagem de ClienteDTO
+    findByEmail(email: string) {
         
         // pega o email no restful do BD
         return this.http.get<ClientDTO>(`${API_CONFIG.baseUrl}/clientes/email?value=${email}`);
