@@ -21,7 +21,11 @@ export class ProdutosPage {
     public loadingCtrl: LoadingController) {
   }
 
-  ionViewDidLoad() {
+  ionViewDidLoad(){
+    this.loadData();
+  }
+
+  loadData() {
 
     let categoria_id = this.navParams.get('categoria_id'); // pega o parametro do metodo showProdutos do categorias.ts
 
@@ -64,6 +68,15 @@ export class ProdutosPage {
 
     loader.present();
     return loader;
+  }
+
+  doRefresh(refresher) {
+
+    this.loadData(); // carrega novamente infos da pagina
+
+    setTimeout(() => {
+      refresher.complete();
+    }, 1000); // depois de 1 segundo executa o loadData()
   }
 
 }
