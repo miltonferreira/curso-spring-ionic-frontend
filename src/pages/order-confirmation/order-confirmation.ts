@@ -6,6 +6,7 @@ import { CartService } from '../../services/domain/cart.service';
 import { ClientDTO } from '../../models/cliente.dto';
 import { EnderecoDTO } from '../../models/endereco.dto';
 import { ClienteService } from '../../services/domain/cliente.service';
+import { PedidoService } from '../../services/domain/pedido.service';
 
 @IonicPage()
 @Component({
@@ -13,6 +14,7 @@ import { ClienteService } from '../../services/domain/cliente.service';
   templateUrl: 'order-confirmation.html',
 })
 export class OrderConfirmationPage {
+  // finaliza pedido do cliente
 
   pedido: PedidoDTO;
   cartItems: CartItem[]; // lista para mostra os itens do carrinho
@@ -23,7 +25,8 @@ export class OrderConfirmationPage {
     public navCtrl: NavController, 
     public navParams: NavParams,
     public cartService: CartService,
-    public clienteService: ClienteService) {
+    public clienteService: ClienteService,
+    public pedidoService: PedidoService) {
 
     this.pedido = this.navParams.get('pedido'); // pega o parametro de ? para pegar Id do cliente
   }
@@ -50,6 +53,25 @@ export class OrderConfirmationPage {
 
   total(){
     return this.cartService.total();
+  }
+
+  back(){
+    this.navCtrl.setRoot('CartPage'); // retorna para a pagina de carrinho
+  }
+
+  //envia o pedido para o BD no backend
+  checkout(){
+    this.pedidoService.insert(this.pedido)
+    .subscribe(response => {
+      this.cartService.createOrClearCart(); // limpa o carrinho ao finalizar o pedido
+      // pega a resposta do cabeçalho o caminho do pedido salvo no BD
+      console.log(response.headers.get('location'));
+    },
+    error => {
+      if(error.status == 403){ // erro de autenticação ou autorização
+        this.navCtrl.setRoot('HomePage'); // retorna a tela de login
+      }
+    });
   }
 
 }
