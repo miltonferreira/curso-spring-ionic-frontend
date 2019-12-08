@@ -20,6 +20,7 @@ export class OrderConfirmationPage {
   cartItems: CartItem[]; // lista para mostra os itens do carrinho
   cliente: ClientDTO;
   endereco: EnderecoDTO;
+  codpedido: string;
 
   constructor(
     public navCtrl: NavController, 
@@ -59,19 +60,29 @@ export class OrderConfirmationPage {
     this.navCtrl.setRoot('CartPage'); // retorna para a pagina de carrinho
   }
 
+  home(){
+    this.navCtrl.setRoot('CategoriasPage'); // retorna para a pagina de categorias
+  }
+
   //envia o pedido para o BD no backend
   checkout(){
     this.pedidoService.insert(this.pedido)
     .subscribe(response => {
       this.cartService.createOrClearCart(); // limpa o carrinho ao finalizar o pedido
       // pega a resposta do cabeçalho o caminho do pedido salvo no BD
-      console.log(response.headers.get('location'));
+      this.codpedido = this.extractId(response.headers.get('location')); //pega o ID do novo pedido
     },
     error => {
       if(error.status == 403){ // erro de autenticação ou autorização
         this.navCtrl.setRoot('HomePage'); // retorna a tela de login
       }
     });
+  }
+
+  // pega o ID do novo pedido salvo no BD
+  private extractId(location : string) : string {
+    let position = location.lastIndexOf('/'); // pega a ultima barra da url
+    return location.substring(position + 1, location.length); // pega string depois da ultima barra e o final da url
   }
 
 }
