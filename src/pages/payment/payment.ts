@@ -31,7 +31,8 @@ export class PaymentPage {
 
   nextPage() {
     this.pedido.pagamento = this.formGroup.value
-    console.log(this.pedido); // mostra formulario
+    // vai para a pagina de confirmação do pedido
+    this.navCtrl.setRoot('OrderConfirmationPage', {pedido: this.pedido}); // envia o obj {pedido: this.pedido} para outra pagina
   }
 
 }

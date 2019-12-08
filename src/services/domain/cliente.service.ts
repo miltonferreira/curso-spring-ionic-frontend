@@ -12,6 +12,14 @@ export class ClienteService {
 
     }
 
+    // pega as infos do cliente, para verificar se o cliente logado é o mesmo cliente do pedido
+    findById(id: string) {
+        
+        // pega o id do cliente no restful do BD
+        return this.http.get<ClientDTO>(`${API_CONFIG.baseUrl}/clientes/${id}`);
+            
+    }
+
     // pega todas infos do cliente, inclusive os endereços, nao possui tipagem de ClienteDTO
     findByEmail(email: string) {
         
