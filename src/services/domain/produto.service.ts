@@ -16,8 +16,8 @@ export class ProdutoService {
   }
 
   // busca a categoria no backEnd
-  findByCategoria(categoria_id : string) {
-    return this.http.get(`${API_CONFIG.baseUrl}/produtos/?categorias=${categoria_id}`);
+  findByCategoria(categoria_id : string, page : number = 0, linesPerPage : number = 24) { // 0 e 24 sao valores default
+    return this.http.get(`${API_CONFIG.baseUrl}/produtos/?categorias=${categoria_id}&page=${page}&linesPerPage=${linesPerPage}`); // paginação para infinite scroll
   }
 
   // busca no backend as imagens pequenas dos produtos

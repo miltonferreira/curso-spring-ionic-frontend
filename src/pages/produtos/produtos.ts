@@ -12,7 +12,9 @@ import { API_CONFIG } from '../../config/api.config';
 export class ProdutosPage {
   // lista os produtos quando for chamado o produtos.html
 
-  items : ProdutoDTO[]; // coleção de produtos
+  items : ProdutoDTO[] = []; // coleção de produtos com lista vazia
+
+  page : number = 0; //paginas carregadas a cada chamada do doInfinite
 
   constructor(
     public navCtrl: NavController, 
@@ -31,11 +33,16 @@ export class ProdutosPage {
 
     let loader = this.presentLoading(); // mostra a tela de loading
 
-    this.produtosService.findByCategoria(categoria_id) // indica qual é a categoria dos items
+    this.produtosService.findByCategoria(categoria_id, this.page, 10) // indica qual é a categoria dos items, buscando de 10 em 10
     .subscribe(response => {
-      this.items = response['content']; // pega o conteudo paginado do content
+      let start = this.items.length; // pega o tamanho inicial da lista
+      this.items = this.items.concat(response['content']); // pega o conteudo paginado do content e concatena com o que já tem de itens
+      let end = this.items.length - 1; // pega o tamanho da lista depois de concatenar
       loader.dismiss(); // fecha a tela de loading, quando obter resposta
-      this.loadImageUrls(); // ao pegar os produtos, chama as imagens do produto
+      console.log(this.page);
+      console.log(this.items);
+      // ao pegar os produtos, chama as imagens do produto.
+      this.loadImageUrls(start, end); // Chamando somente uma vez quando carregar com start e end
     },
     error => {
       loader.dismiss(); // fecha a tela de loading, caso tenha acontecido algum erro
@@ -44,8 +51,8 @@ export class ProdutosPage {
   };
 
   // mostra as imagens dos produtos
-  loadImageUrls() {
-    for (var i=0; i<this.items.length; i++) {
+  loadImageUrls(start: number, end: number) {
+    for (var i=start; i<end; i++) {
       let item = this.items[i];
       this.produtosService.getSmallImageFromBucket(item.id)
         .subscribe(response => {
@@ -72,11 +79,27 @@ export class ProdutosPage {
 
   doRefresh(refresher) {
 
+    // reseta a paginação quando acontecer o refresh no canto superior da pagina
+    this.page = 0;
+    this.items = [];
+
     this.loadData(); // carrega novamente infos da pagina
 
     setTimeout(() => {
       refresher.complete();
     }, 1000); // depois de 1 segundo executa o loadData()
+  }
+
+  doInfinite(infiniteScroll) {
+
+    this.page++; // incrementa +1 quando chegar no final da pagina
+
+    this.loadData(); // chamando novamente o metodo que carrega mais items
+
+    setTimeout(() => {
+      infiniteScroll.complete();
+    }, 1000);
+
   }
 
 }
