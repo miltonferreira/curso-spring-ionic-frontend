@@ -29,7 +29,7 @@
     </button>
   </ion-list>
 
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)"> <!--ionInfinite é um bind de evento-->
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="finalScroll == false"> <!--ionInfinite é um bind de evento-->
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll> 
 </ion-content>

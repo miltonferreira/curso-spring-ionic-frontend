@@ -16,6 +16,8 @@ export class ProdutosPage {
 
   page : number = 0; //paginas carregadas a cada chamada do doInfinite
 
+  finalScroll: boolean = false;
+
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -43,6 +45,7 @@ export class ProdutosPage {
       console.log(this.items);
       // ao pegar os produtos, chama as imagens do produto.
       this.loadImageUrls(start, end); // Chamando somente uma vez quando carregar com start e end
+      this.finalScroll = response["last"]; // recebe o boolean que indica que está na ultima página
     },
     error => {
       loader.dismiss(); // fecha a tela de loading, caso tenha acontecido algum erro
@@ -82,6 +85,7 @@ export class ProdutosPage {
     // reseta a paginação quando acontecer o refresh no canto superior da pagina
     this.page = 0;
     this.items = [];
+    this.finalScroll = false; //reseta var
 
     this.loadData(); // carrega novamente infos da pagina
 
@@ -95,7 +99,7 @@ export class ProdutosPage {
     this.page++; // incrementa +1 quando chegar no final da pagina
 
     this.loadData(); // chamando novamente o metodo que carrega mais items
-
+    
     setTimeout(() => {
       infiniteScroll.complete();
     }, 1000);
