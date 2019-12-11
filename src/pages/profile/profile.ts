@@ -26,7 +26,10 @@ export class ProfilePage {
   }
 
   ionViewDidLoad() {
+    this.loadData();
+  }
 
+  loadData(){
     let localUser = this.storage.getLocalUser(); //pega o valor de localUser do storage caso exista
 
     if(localUser && localUser.email){
@@ -46,7 +49,6 @@ export class ProfilePage {
     } else {
       this.navCtrl.setRoot('HomePage'); // caso aconteça erro de autenticação do token, retorna para a página de login
     }
-
   }
 
   // verifica se a imagem existe
@@ -74,6 +76,23 @@ export class ProfilePage {
      this.cameraOn = false;
     }, (err) => {
     });
+  }
+
+  // envia imagem do cliente para o S3
+  sendPicture(){
+    this.clienteService.uploadPicture(this.picture) // indica a foto tirada pela cam para enviar ao S3
+      .subscribe(response => {
+        this.picture = null;
+        this.loadData(); // recarrega novamente a pagina de perfil
+      },
+      error =>{
+
+      });
+  }
+
+  // descarta imagem
+  cancel(){
+    this.picture = null;
   }
 
 }

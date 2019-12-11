@@ -4,11 +4,15 @@ import { Observable } from "rxjs/Rx";
 import { ClientDTO } from "../../models/cliente.dto";
 import { API_CONFIG } from "../../config/api.config";
 import { StorageService } from "../storage.service";
+import { ImageUtilService } from "../image-util.service";
 
 @Injectable()
 export class ClienteService {
     
-    constructor(public http: HttpClient, public storage: StorageService){
+    constructor(
+        public http: HttpClient,
+        public storage: StorageService,
+        public imageUtilService: ImageUtilService){
 
     }
 
@@ -44,6 +48,25 @@ export class ClienteService {
                 responseType: 'text' // tipo texto, pois pode acontecer um erro de parse Json
             }
         );
+    }
+
+    // envia imagem do cliente para o S3
+    uploadPicture(picture){
+        
+        let pictureBlob = this.imageUtilService.dataUriToBlob(picture); // converte imagem para blob
+        let formData : FormData = new FormData(); // instancia o formData pois a imagem é enviada por ele
+
+        formData.set('file', pictureBlob, 'file.png'); // indica qual arquivo enviar para o S3
+
+        return this.http.post(
+            `${API_CONFIG.baseUrl}/clientes/picture`,
+            formData, // passa o formData como post para o S3
+            {
+                observe: 'response', // espera uma resposta
+                responseType: 'text' // tipo texto, pois pode acontecer um erro de parse Json
+            }
+        );
+
     }
 
 }
