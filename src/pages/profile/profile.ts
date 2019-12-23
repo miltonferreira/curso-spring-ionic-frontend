@@ -5,6 +5,7 @@ import { ClientDTO } from '../../models/cliente.dto';
 import { ClienteService } from '../../services/domain/cliente.service';
 import { API_CONFIG } from '../../config/api.config';
 import { CameraOptions, Camera } from '@ionic-native/camera';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @IonicPage()
 @Component({
@@ -15,6 +16,7 @@ export class ProfilePage {
 
   cliente: ClientDTO;
   picture: string; // imagem imagem base64
+  profileImage; // imagem do perfil
   cameraOn: boolean = false; // controla se ativa/desativa botao de tirar foto
 
   constructor(
@@ -22,7 +24,10 @@ export class ProfilePage {
     public navParams: NavParams,
     public storage: StorageService,
     public clienteService: ClienteService,
-    public camera: Camera) {
+    public camera: Camera,
+    public sanitizer: DomSanitizer) {
+
+      this.profileImage = 'assets/imgs/avatar-blank.png'; // caso nao encontre a imagem, usa a imagem padrao
   }
 
   ionViewDidLoad() {
@@ -56,8 +61,24 @@ export class ProfilePage {
     this.clienteService.getImageFromBucket(this.cliente.id)
     .subscribe(response => {
       this.cliente.imageUrl = `${API_CONFIG.bucketBaseUrl}/cp${this.cliente.id}.jpg`;
+      this.blobToDataURL(response).then(dataUrl => {
+        let str : string = dataUrl as string; // indica a imagem do avatar do profile
+        this.profileImage = this.sanitizer.bypassSecurityTrustUrl(str);
+      })
     },
-    error =>{});
+    error =>{
+      this.profileImage = 'assets/imgs/avatar-blank.png'; // caso nao encontre a imagem, usa a imagem padrao
+    });
+  }
+
+  // converte blob para base64
+  blobToDataURL(blob){
+    return new Promise((fulfill, reject) => {
+      let reader = new FileReader();
+      reader.onerror = reject;
+      reader.onload = (e) => fulfill(reader.result);
+      reader.readAsDataURL(blob);
+    })
   }
 
   // pega imagem da camera do celular/cam
@@ -105,7 +126,7 @@ export class ProfilePage {
     this.clienteService.uploadPicture(this.picture) // indica a foto tirada pela cam para enviar ao S3
       .subscribe(response => {
         this.picture = null;
-        this.loadData(); // recarrega novamente a pagina de perfil
+        this.getImageIfExists(); // recarrega novamente a imagem de perfil
       },
       error =>{
 

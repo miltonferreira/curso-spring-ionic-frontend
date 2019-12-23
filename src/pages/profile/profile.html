@@ -9,7 +9,7 @@
 
 <ion-content padding>
   <ion-avatar>
-    <img class="circle" [src]="cliente?.imageUrl || 'assets/imgs/avatar-blank.png'">
+    <img class="circle" [src]="profileImage">
   </ion-avatar>
   <h2 text-center>{{cliente?.nome}}</h2> <!-- Com ? usa operador de navegação segura pois nao dá erro, enquanto o dado nao existir-->
   <p text-center>{{cliente?.email}}</p>
