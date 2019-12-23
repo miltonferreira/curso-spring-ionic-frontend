@@ -76,6 +76,7 @@ export class ProfilePage {
      this.picture = 'data:image/png;base64,' + imageData;
      this.cameraOn = false;
     }, (err) => {
+      this.cameraOn = false; // caso nao tire foto, permite que tire novamente
     });
   }
 
@@ -95,6 +96,7 @@ export class ProfilePage {
      this.picture = 'data:image/png;base64,' + imageData;
      this.cameraOn = false;
     }, (err) => {
+      this.cameraOn = false; // caso nao tenha escolhido uma imagem, permite que vá para a galeria
     });
   }
 
